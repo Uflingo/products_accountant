@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      password: QWEasd098
+      username: uflingo
+      host: localhost
+      port: 27017
+      database: warehouse
