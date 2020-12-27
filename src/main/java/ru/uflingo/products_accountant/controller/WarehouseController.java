@@ -25,7 +25,7 @@ public class WarehouseController {
     }
 
     @PutMapping("/{userId}")
-    public void createWarehouse(@PathVariable long userId, @RequestBody WarehouseName name) {
-        warehouseService.createWarehouse(userId, name.getName());
+    public void createWarehouse(@PathVariable long userId, @RequestBody WarehouseName warehouseName) {
+        warehouseService.createWarehouse(userId, warehouseName.getName());
     }
 }
