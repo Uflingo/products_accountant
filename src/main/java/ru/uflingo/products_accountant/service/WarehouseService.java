@@ -5,6 +5,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import ru.uflingo.products_accountant.domain.Warehouse;
 import ru.uflingo.products_accountant.repo.WarehouseRepository;
 
@@ -18,12 +20,17 @@ public class WarehouseService {
         return warehouseRepository.findByUserId(userId);
     }
 
+    @Transactional
     public void createWarehouse(long userId, String name) {
         log.info("Creating warehouse for user {} with name {}", userId, name);
-        Warehouse warehouse = new Warehouse();
-        warehouse.setUserId(userId);
-        warehouse.setName(name);
-        warehouse.setDefault(true);
+        Warehouse warehouse = Warehouse.builder()
+        .userId(userId)
+        .name(name)
+        .build();
+        List<Warehouse> userWarehouses = warehouseRepository.findByUserId(userId);
+        if (userWarehouses.stream().noneMatch(Warehouse::isDefault)) {
+            warehouse.setDefault(true);
+        }
         warehouseRepository.insert(warehouse);
     }
 }
