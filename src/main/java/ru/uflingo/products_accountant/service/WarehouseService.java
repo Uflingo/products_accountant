@@ -27,6 +27,9 @@ public class WarehouseService {
         .name(name)
         .build();
         List<Warehouse> userWarehouses = warehouseRepository.findByUserId(userId);
+        if (userWarehouses.stream().anyMatch(wh -> wh.getName().equals(name))) {
+            throw new IllegalArgumentException("There is a warehouse with name " + name);
+        }
         if (userWarehouses.stream().noneMatch(Warehouse::isDefault)) {
             warehouse.setDefault(true);
         }
