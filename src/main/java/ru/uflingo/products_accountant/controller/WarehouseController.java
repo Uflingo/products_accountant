@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.uflingo.products_accountant.domain.Warehouse;
-import ru.uflingo.products_accountant.domain.WarehouseName;
+import ru.uflingo.products_accountant.domain.warehouse.WarehouseName;
+import ru.uflingo.products_accountant.dto.WarehouseDto;
 import ru.uflingo.products_accountant.service.WarehouseService;
 
 @RestController
@@ -22,12 +22,12 @@ public class WarehouseController {
     private final WarehouseService warehouseService;
 
     @GetMapping("/{userId}")
-    public List<Warehouse> getUserWarehouses(@PathVariable long userId) {
+    public List<WarehouseDto> getUserWarehouses(@PathVariable long userId) {
         return warehouseService.getUserWarehouses(userId);
     }
 
     @PutMapping("/{userId}")
-    public void createWarehouse(@PathVariable long userId, @RequestBody WarehouseName warehouseName) {
-        warehouseService.createWarehouse(userId, warehouseName.getName());
+    public WarehouseDto createWarehouse(@PathVariable long userId, @RequestBody WarehouseName warehouseName) {
+        return warehouseService.createWarehouse(userId, warehouseName.getName());
     }
 }

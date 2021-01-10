@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ru.uflingo.products_accountant.domain.ExceptionDto;
+import ru.uflingo.products_accountant.dto.ExceptionDto;
 
 @ControllerAdvice
 public class RestResponseEntityErrorHandler extends ResponseEntityExceptionHandler {

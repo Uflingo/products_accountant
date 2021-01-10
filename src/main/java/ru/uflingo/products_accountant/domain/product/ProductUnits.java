@@ -1,4 +1,4 @@
-package ru.uflingo.products_accountant.domain;
+package ru.uflingo.products_accountant.domain.product;
 
 public enum ProductUnits {
     AMOUNT,
