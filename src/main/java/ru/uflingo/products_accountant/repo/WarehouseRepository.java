@@ -10,4 +10,6 @@ public interface WarehouseRepository extends MongoRepository<Warehouse, String> 
     List<Warehouse> findByUserId(long userId);
 
     Optional<Warehouse> findByUserIdAndName(long userId, String name);
+
+    Optional<Warehouse> findByUserIdAndIsDefaultTrue(long userId);
 }

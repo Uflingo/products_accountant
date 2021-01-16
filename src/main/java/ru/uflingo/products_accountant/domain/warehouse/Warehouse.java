@@ -5,9 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -15,8 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ru.uflingo.products_accountant.domain.product.Product;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Accessors(chain = true)
 @Document("warehouse")
 public class Warehouse {

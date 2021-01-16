@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,9 @@ import ru.uflingo.products_accountant.dto.WarehouseDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static ru.uflingo.products_accountant.domain.WarehouseProvider.getDeletedWarehouse;
+import static ru.uflingo.products_accountant.domain.WarehouseProvider.getFirstWarehouse;
+import static ru.uflingo.products_accountant.domain.WarehouseProvider.getSecondWarehouse;
 
 @SpringBootTest
 public class WarehouseServiceTest {
@@ -59,7 +63,7 @@ public class WarehouseServiceTest {
         assertThatThrownBy(
             () -> warehouseService.createWarehouse(USER_ID, warehouseName),
             "")
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(DuplicateKeyException.class);
     }
 
     @Test
@@ -87,18 +91,18 @@ public class WarehouseServiceTest {
 
     @Test
     void getUserWarehousesTest() {
-        Warehouse firstWh = new Warehouse().setUserId(USER_ID).setName("firstWarehouseName").setDefault(true).setDeleted(false);
-        Warehouse secondWh = new Warehouse().setUserId(USER_ID).setName("secondWarehouseName").setDefault(false).setDeleted(false);
-        Warehouse deletedWh = new Warehouse().setUserId(USER_ID).setName("deletedWarehouse").setDefault(false).setDeleted(true);
+        Warehouse firstWarehouse = getFirstWarehouse();
+        Warehouse secondWarehouse = getSecondWarehouse();
+        Warehouse deletedWarehouse = getDeletedWarehouse();
         Warehouse differentUsersWh = new Warehouse().setUserId(USER_ID + 1).setName("randomName").setDefault(true).setDeleted(false);
-        mongoTemplate.save(firstWh);
-        mongoTemplate.save(secondWh);
-        mongoTemplate.save(deletedWh);
+        mongoTemplate.save(firstWarehouse);
+        mongoTemplate.save(secondWarehouse);
+        mongoTemplate.save(deletedWarehouse);
         mongoTemplate.save(differentUsersWh);
 
         List<WarehouseDto> userWarehouses = warehouseService.getUserWarehouses(USER_ID);
 
         assertThat(userWarehouses).usingElementComparatorIgnoringFields("created")
-            .containsOnly(WarehouseConverter.toDto(firstWh), WarehouseConverter.toDto(secondWh));
+            .containsOnly(WarehouseConverter.toDto(firstWarehouse), WarehouseConverter.toDto(secondWarehouse));
     }
 }

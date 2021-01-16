@@ -11,14 +11,15 @@ import ru.uflingo.products_accountant.dto.ProductDto;
 @UtilityClass
 public class ProductConverter {
     public ProductDto toDto(Product product) {
-        return ProductDto.builder()
-            .name(product.getName())
-            .group(product.getGroup())
-            .units(product.getUnits())
-            .amount(product.getAmount())
-            .consumption(product.getConsumption())
-            .consumptionPeriod(product.getConsumptionPeriod())
-            .build();
+        return new ProductDto()
+            .setName(product.getName())
+            .setGroup(product.getGroup())
+            .setUnits(product.getUnits())
+            .setAmount(product.getAmount())
+            .setConsumption(product.getConsumption())
+            .setConsumptionPeriod(product.getConsumptionPeriod())
+            .setConsumptionPeriodAmount(product.getConsumptionPeriodAmount())
+            .setCreated(product.getCreated());
     }
 
     public Product toDomain(ProductDto productDto) {
@@ -27,7 +28,7 @@ public class ProductConverter {
             .setGroup(productDto.getGroup())
             .setUnits(productDto.getUnits())
             .setAmount(productDto.getAmount())
-            .setConsumption(productDto.getConsumption())
+            .setConsumption(productDto.getConsumption() == null ? productDto.getAmount() : productDto.getConsumption())
             .setConsumptionPeriod(productDto.getConsumptionPeriod())
             .setConsumptionPeriodAmount(productDto.getConsumptionPeriodAmount())
             .setConsumptionPerDay(getConsumptionPerDay(
