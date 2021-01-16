@@ -29,10 +29,21 @@ public class ProductConverter {
             .setAmount(productDto.getAmount())
             .setConsumption(productDto.getConsumption())
             .setConsumptionPeriod(productDto.getConsumptionPeriod())
-            .setConsumptionPerDay(getConsumptionPerDay(productDto.getConsumptionPeriod(), productDto.getConsumption()));
+            .setConsumptionPeriodAmount(productDto.getConsumptionPeriodAmount())
+            .setConsumptionPerDay(getConsumptionPerDay(
+                productDto.getConsumptionPeriod(), productDto.getConsumption(),
+                productDto.getConsumptionPeriodAmount(),
+                productDto.getAmount())
+            );
     }
 
-    private BigDecimal getConsumptionPerDay(ConsumptionPeriod period, BigDecimal consumption) {
-        return consumption.divide(BigDecimal.valueOf(period.getDays()), 5,  RoundingMode.UP);
+    private BigDecimal getConsumptionPerDay(
+        ConsumptionPeriod period,
+        BigDecimal consumption,
+        int consumptionPeriodAmount,
+        BigDecimal amount
+    ) {
+        BigDecimal c = consumption == null ? amount : consumption;
+        return c.divide(BigDecimal.valueOf((long) period.getDays() * consumptionPeriodAmount), 5, RoundingMode.UP);
     }
 }

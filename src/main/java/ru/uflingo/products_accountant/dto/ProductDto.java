@@ -20,7 +20,8 @@ public class ProductDto {
     private ProductUnits units;
     private BigDecimal amount;
     private BigDecimal consumption;
-    private ConsumptionPeriod consumptionPeriod;
+    private ConsumptionPeriod consumptionPeriod = ConsumptionPeriod.WEEK;
+    private int consumptionPeriodAmount = 1;
     private LocalDateTime created;
     private boolean isDeleted;
 }
