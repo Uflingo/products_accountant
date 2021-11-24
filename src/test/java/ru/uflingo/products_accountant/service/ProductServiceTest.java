@@ -90,8 +90,6 @@ public class ProductServiceTest {
 
         WarehouseFullDto productsFromDefault = productService.getProductsFromDefault(USER_ID);
 
-        System.out.println(productsFromDefault);
-
         assertThat(productsFromDefault).isNotNull();
         assertThat(productsFromDefault.getProducts())
             .usingElementComparatorIgnoringFields("created", "updated", "lastTimeAdded")
@@ -106,10 +104,34 @@ public class ProductServiceTest {
 
         WarehouseFullDto productsFromNamed = productService.getProductsFromNamed(USER_ID, DEFAULT_WAREHOUSE_NAME);
 
-        System.out.println(productsFromNamed);
-
         assertThat(productsFromNamed).isNotNull();
         assertThat(productsFromNamed.getProducts())
+            .usingElementComparatorIgnoringFields("created", "updated", "lastTimeAdded")
+            .containsOnly(ProductConverter.toDto(PRODUCT_VEG));
+    }
+
+    @Test
+    void getProductsOnShortage_noShortage() {
+        Warehouse firstWarehouse = getFirstWarehouse();
+        firstWarehouse.setProducts(List.of(PRODUCT_VEG));
+        mongoTemplate.save(firstWarehouse);
+
+        WarehouseFullDto productsOnShortage = productService.getProductsOnShortage(USER_ID, 1);
+
+        assertThat(productsOnShortage).isNotNull();
+        assertThat(productsOnShortage.getProducts()).isEmpty();
+    }
+
+    @Test
+    void getProductsOnShortage_getShortageVeg() {
+        Warehouse firstWarehouse = getFirstWarehouse();
+        firstWarehouse.setProducts(List.of(PRODUCT_VEG));
+        mongoTemplate.save(firstWarehouse);
+
+        WarehouseFullDto productsOnShortage = productService.getProductsOnShortage(USER_ID, 14);
+
+        assertThat(productsOnShortage).isNotNull();
+        assertThat(productsOnShortage.getProducts())
             .usingElementComparatorIgnoringFields("created", "updated", "lastTimeAdded")
             .containsOnly(ProductConverter.toDto(PRODUCT_VEG));
     }

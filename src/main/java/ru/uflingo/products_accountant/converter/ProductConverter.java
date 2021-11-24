@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import lombok.experimental.UtilityClass;
-import ru.uflingo.products_accountant.domain.product.ConsumptionPeriod;
+import ru.uflingo.products_accountant.domain.product.Period;
 import ru.uflingo.products_accountant.domain.product.Product;
 import ru.uflingo.products_accountant.dto.ProductDto;
 
@@ -39,7 +39,7 @@ public class ProductConverter {
     }
 
     private BigDecimal getConsumptionPerDay(
-        ConsumptionPeriod period,
+        Period period,
         BigDecimal consumption,
         int consumptionPeriodAmount,
         BigDecimal amount

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import ru.uflingo.products_accountant.domain.product.ConsumptionPeriod;
+import ru.uflingo.products_accountant.domain.product.Period;
 import ru.uflingo.products_accountant.domain.product.ProductUnits;
 
 @Data
@@ -16,7 +16,7 @@ public class ProductDto {
     private ProductUnits units;
     private BigDecimal amount;
     private BigDecimal consumption;
-    private ConsumptionPeriod consumptionPeriod = ConsumptionPeriod.WEEK;
+    private Period consumptionPeriod = Period.WEEK;
     private int consumptionPeriodAmount = 1;
     private LocalDateTime created;
     private boolean isDeleted;

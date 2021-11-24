@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.uflingo.products_accountant.domain.product.Period;
 import ru.uflingo.products_accountant.dto.ProductDto;
 import ru.uflingo.products_accountant.dto.WarehouseFullDto;
 import ru.uflingo.products_accountant.service.ProductService;
@@ -21,9 +22,11 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping(path = "/{userId}/{warehouseName}", consumes = "application/json")
-    public ProductDto addProduct(@PathVariable long userId,
-                           @PathVariable String warehouseName,
-                           @RequestBody ProductDto product) {
+    public ProductDto addProduct(
+        @PathVariable long userId,
+        @PathVariable String warehouseName,
+        @RequestBody ProductDto product
+    ) {
         log.info("Got post user {} warehouse {} product {}", userId, warehouseName, product);
         return productService.addProduct(userId, warehouseName, product);
     }
@@ -33,13 +36,22 @@ public class ProductController {
         log.info("Got post user {} default warehouse product {}", userId, product);
         return productService.addProduct(userId, product);
     }
+
     @GetMapping("/{userId}")
     public WarehouseFullDto getProductsFromDefault(@PathVariable long userId) {
         return productService.getProductsFromDefault(userId);
     }
 
     @GetMapping("/{userId}/{warehouseName}")
-    public WarehouseFullDto getProductsFromNamedWarehouse(@PathVariable long userId, @PathVariable String warehouseName) {
+    public WarehouseFullDto getProductsFromNamedWarehouse(
+        @PathVariable long userId,
+        @PathVariable String warehouseName
+    ) {
         return productService.getProductsFromNamed(userId, warehouseName);
+    }
+
+    @GetMapping("/{userId}/shortage/{days}")
+    public WarehouseFullDto getProductsOnShortageFromDefault(@PathVariable long userId, @PathVariable int days) {
+        return productService.getProductsOnShortage(userId, days);
     }
 }

@@ -15,7 +15,7 @@ public class Product {
     private ProductUnits units;
     private BigDecimal amount;
     private BigDecimal consumption;
-    private ConsumptionPeriod consumptionPeriod;
+    private Period consumptionPeriod;
     private int consumptionPeriodAmount;
     private BigDecimal consumptionPerDay;
     private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);

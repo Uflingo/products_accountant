@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum ConsumptionPeriod {
+public enum Period {
     DAY(1),
     WEEK(7),
     MONTH(30),
